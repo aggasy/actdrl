@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="User">
+	<resultMap type="com.aggasy.actdrl.domain.User" id="userResultMap">
+		<result property="userId" column="userId" />
+		<result property="userName" column="userName" />
+		<result property="password" column="password" />
+		<result property="phone" column="phone" />
+		<result property="email" column="email" />
+		<result property="gender" column="gender" />
+		<result property="registerDate" column="registerDate" />
+	</resultMap>
+
+	<insert id="addUser" parameterType="com.aggasy.actdrl.domain.User">
+		INSERT INTO 
+		tb_user(`userName`,`password`,`phone`,`email`,`gender`,`registerDate`)
+		VALUES(#{userName},#{password},#{phone},#{email},#{gender},#{registerDate})
+	</insert>
+
+	<select id="findUserById" resultMap="userResultMap"
+		parameterType="java.lang.Integer">
+		SELECT userId,userName,PASSWORD,phone,email,gender,registerDate
+		FROM tb_user WHERE userId = #{userId}
+	</select>
+
+</mapper>
