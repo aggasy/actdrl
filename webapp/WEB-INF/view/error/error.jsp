@@ -1,14 +1,28 @@
-<%@ page language="java" import="java.util.*"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<%@ page contentType="text/html;charset=UTF-8" isErrorPage="true" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="org.slf4j.Logger,org.slf4j.LoggerFactory" %>
+<%response.setStatus(200);%>
+
+<%
+	Throwable ex = null;
+	if (exception != null)
+		ex = exception;
+	if (request.getAttribute("javax.servlet.error.exception") != null)
+		ex = (Throwable) request.getAttribute("javax.servlet.error.exception");
+
+	//记录日志
+	Logger logger = LoggerFactory.getLogger("500.jsp");
+	logger.error(ex.getMessage(), ex);
+%>
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title></title>
+	<title>500 - 系统内部错误</title>
 </head>
 
 <body>
-	
-	<h1>ERROR</h1>
+<div><h1>系统发生内部错误.</h1></div>
+<div><a href="<c:url value="/"/>">返回首页</a></div>
 </body>
 </html>
