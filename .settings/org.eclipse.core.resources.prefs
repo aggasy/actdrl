@@ -1,5 +1,7 @@
 eclipse.preferences.version=1
 encoding//src/main/java/com/aggasy/actdrl/util/LinkedProperties.java=UTF-8
 encoding//src/main/java/com/aggasy/actdrl/util/PropertyFileUtil.java=UTF-8
+encoding//src/main/java/com/aggasy/actdrl/web/LoginController.java=UTF-8
+encoding//src/main/java/com/aggasy/actdrl/web/MainController.java=UTF-8
 encoding//src/main/java/com/aggasy/actdrl/web/servlet/PropertiesServlet.java=UTF-8
 encoding//webapp/index.jsp=UTF-8
