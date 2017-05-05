@@ -3,6 +3,6 @@
     "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<mappers>
-		<mapper resource="com/aggasy/actdrl/domain/sqlmap/User.xml" />
+		<!-- <mapper resource="com/aggasy/actdrl/domain/sqlmap/User.xml" /> -->
 	</mappers>
 </configuration>

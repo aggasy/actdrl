@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%response.setStatus(200);%>
+<% response.setStatus(200); %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -12,7 +12,7 @@
 <body>
 <div>
 	<div><h1>页面不存在.</h1></div>
-	<div><a href="<c:url value="/"/>">返回首页</a></div>
+	<div><a href="<c:url value="/login"/>">返回登录页</a></div>
 </div>
 </body>
 </html>

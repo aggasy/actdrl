@@ -23,6 +23,6 @@
 
 <body>
 <div><h1>系统发生内部错误.</h1></div>
-<div><a href="<c:url value="/"/>">返回首页</a></div>
+<div><a href="<c:url value="/login"/>">返回登录页</a></div>
 </body>
 </html>

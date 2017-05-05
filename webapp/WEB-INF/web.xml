@@ -12,7 +12,7 @@
 	<!-- 加载配置文件 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath*:conf/*.xml</param-value>
+		<param-value>classpath*:conf/beans-*.xml</param-value>
 	</context-param>
 
 	<!-- 加载日志配置文件 -->
@@ -119,6 +119,19 @@
 		<servlet-name>default</servlet-name>
 		<url-pattern>*.png</url-pattern>
 	</servlet-mapping>
+
+	<!-- <error-page>
+		<error-code>404</error-code>
+		<location>/error/404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>403</error-code>
+		<location>/error/403.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/error/error.jsp</location>
+	</error-page> -->
 
 	<!-- 配置Spring核心控制器 -->
 	<servlet>

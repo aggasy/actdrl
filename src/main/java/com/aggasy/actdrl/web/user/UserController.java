@@ -1,53 +1,103 @@
 package com.aggasy.actdrl.web.user;
 
-import java.util.Date;
-import java.util.Map;
+import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import javax.servlet.http.HttpSession;
+
+import org.activiti.engine.IdentityService;
+import org.activiti.engine.identity.Group;
+import org.activiti.engine.identity.User;
+import org.apache.commons.lang3.ArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.aggasy.actdrl.domain.User;
-import com.aggasy.actdrl.service.UserService;
+import com.aggasy.actdrl.util.UserUtil;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
 
-	private final Log logger = LogFactory.getLog(UserController.class);
-
-	@Autowired
-	private UserService userService;
+	private final Logger logger = LoggerFactory.getLogger(UserController.class);
+	
+	// Activiti Identify Service
+    private IdentityService identityService;
 
 	@RequestMapping("/index")
 	public String userIndex() {
-
 		return "user/index";
 	}
 	
 	@RequestMapping("/")
 	public String index() {
-
 		return "user/index";
 	}
 
-	@RequestMapping("/getUserInfo")
+	/*@RequestMapping("/getUserInfo")
 	public String getUserInfo(Integer userId, Map<String, Object> map) {
 
-		logger.info("»ñÈ¡ÓÃ»§ÐÅÏ¢ÇëÇó²ÎÊý userId=" + userId);
+		logger.info("ä¼ é€’çš„ç”¨æˆ·userId=" + userId);
 		User user = userService.findUserById(userId);
 		map.put("userInfo", user);
 		return "user/show";
-	}
+	}*/
 
-	@RequestMapping("/addInfo")
-	public String addInfo(User user, Map<String, Object> map) {
-		user.setRegisterDate(new Date());
-		logger.info("Ìí¼ÓÓÃ»§ÐÅÏ¢ÇëÇó²ÎÊý:" + user);
+	/*@RequestMapping("/addInfo")
+	public String addInfo(String userId, String firstName, String lastName, String password,
+            String email, String imageResource, List<String> groups, List<String> userInfo) {
+		logger.info("æ³¨å†Œç”¨æˆ·ï¼š" + userId);
 		int result = userService.addUser(user);
 		map.put("addRes", result);
 		return "user/index";
-	}
+	}*/
+	
+	/**
+	 * ç”¨æˆ·ç™»å½•
+     *
+     * @param userId
+     * @param password
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/logon")
+    public String logon(@RequestParam("userid") String userId, @RequestParam("password") String password, HttpSession session) {
+        logger.debug("logon request: {username={}, password={}}", userId, password);
+        boolean checkPassword = identityService.checkPassword(userId, password);
+        logger.debug("Check password result {}", checkPassword);
+        
+        if (checkPassword) {
+            // read user from database
+            User user = identityService.createUserQuery().userId(userId).singleResult();
+            UserUtil.saveUserToSession(session, user);
+
+            List<Group> groupList = identityService.createGroupQuery().groupMember(userId).list();
+            session.setAttribute("groups", groupList);
+
+            String[] groupNames = new String[groupList.size()];
+            for (int i = 0; i < groupNames.length; i++) {
+                System.out.println(groupList.get(i).getName());
+                groupNames[i] = groupList.get(i).getName();
+            }
+
+            session.setAttribute("groupNames", ArrayUtils.toString(groupNames));
+
+            return "redirect:/main/index";
+        } else {
+            return "redirect:/login?error=true";
+        }
+    }
+    
+    @Autowired
+    public void setIdentityService(IdentityService identityService) {
+        this.identityService = identityService;
+    }
+    
+    @RequestMapping(value = "/logout")
+    public String logout(HttpSession session) {
+        session.removeAttribute("user");
+        return "/login";
+    }
 }
